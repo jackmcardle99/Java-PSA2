@@ -2,18 +2,11 @@ package classes;
 
 import java.util.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Items {
-   
     private Scanner scan;
-    private String barcode;
-    private String author;
-    private String title;
-    private String type;
+    private String barcode, author, title, type, isbn;
     private short year;
-    private String isbn;
     
     public Items(String barcode, String author, String title, String type, short year, String isbn)
     {
@@ -25,11 +18,12 @@ public class Items {
         this.isbn = isbn;
     }
 
-
-    public String toString(){
-        String output =  "Barcode: " + this.barcode + ", " + "author: " + this.author + ", " + "title: " + this.title + ", "+ "type: " + this.type + ", "+ "year: " + this.year + ", "+ "isbn: " + this.isbn;
+    public String toString(){ //method to output content of items file as string
+        String itemsOutput =  "Barcode: " + this.barcode + ", " + "author: " 
+                + this.author + ", " + "title: " + this.title + ", "+ "type: " 
+                + this.type + ", "+ "year: " + this.year + ", "+ "isbn: " + this.isbn;
              
-        return output;  
+        return itemsOutput;  
     }
     
     public String getBarcode() {

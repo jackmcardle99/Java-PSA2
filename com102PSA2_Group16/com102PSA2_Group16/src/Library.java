@@ -1,5 +1,5 @@
-import classes.Items;
-import classes.fileIO;
+import classes.*;
+import classes.FileIO;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
@@ -15,7 +15,8 @@ public class Library {
     
     private Scanner scan;
     
-    fileIO fileHandling = new fileIO();
+    FileIO file = new FileIO();
+    //
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -35,18 +36,31 @@ public class Library {
         while (respone) {
             System.out.println("What would you like to do?");
             System.out.println("(1) View items on loan \n"
-                             + "(2) View All items \n"
-                             + "(3) Stop Program");
+                             + "(2) View all items \n"
+                             + "(3) View all users \n" 
+                             + "(4) Date \n"
+                             + "(5) Stop Program ");
+            
             userInput = scan.nextInt();
             
+          /* Important!!! repeating input will duplicate file length, e.g. pressing 3 two times will double length
+            */ 
             switch (userInput) {
                 case 1: userInput = 1;
-                break;
+                    break;
                 case 2: userInput = 2;
-                fileHandling.readItems();
-                fileHandling.printSummary();
-                break;
+                    file.readItems();
+                    file.printItemSummary();
+                    break;
                 case 3: userInput = 3;
+                    file.readUsers();
+                    file.printUserSummary();
+                    break;
+                case 4: userInput = 4;
+                    file.readLoans();
+                    file.printLoanSummary();                   
+                    break;                   
+                case 5: userInput = 5;
                 System.out.println("Application Terminated");
                 respone = false;
                 

@@ -1,11 +1,9 @@
 package classes;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
+
 //import java.time.LocalDate; //importing local date class
 
 public class Loans {
@@ -14,13 +12,11 @@ public class Loans {
     //Date date = new Date(); 
     
     // declaring class variables
-    private String bardcode, userID;
+    private String bardcode, userID, issueDate, dueDate;
     //declaring as final means we cannot alter values 
     private final int mediaLoan = 7, bookLoan = 28, maxBookRenew = 3, maxMediaRenew = 2;     
-    private int renewCount; //counting number of renewals
-    private String issueDate;
-    private String dueDate;
-    
+    private int renewCount; //counting number of renewals 
+    private Scanner scan;
     
     public Loans(String barcode, String userID, String issueDate, String dueDate, int renewCount)
     {
@@ -28,14 +24,14 @@ public class Loans {
         this.userID = userID;
         this.issueDate = issueDate;
         this.dueDate = dueDate;
-        this.renewCount = renewCount;
-        
+        this.renewCount = renewCount;       
     }
     
-    public void createLoan()
+    public Loans()
     {
-        
+         
     }
+ 
     
     public void renewLoan()
     {

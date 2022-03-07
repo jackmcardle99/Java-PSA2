@@ -14,6 +14,10 @@ public class Users {
         this.email = email;        
     }
     
+    public Users()
+    {
+        
+    }
     public String toString(){
         String usersOutput =  "User ID: " + this.userID + ", " + "Forename: " + this.forename 
                 + ", " + "Surname: " + this.surname + ", "+ "Email: " + this.email + ".";

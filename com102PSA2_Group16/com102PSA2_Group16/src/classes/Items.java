@@ -17,7 +17,7 @@ public class Items {
         this.year = year;
         this.isbn = isbn;
     }
-
+    
     public String toString(){ //method to output content of items file as string
         String itemsOutput =  "Barcode: " + this.barcode + ", " + "author: " 
                 + this.author + ", " + "title: " + this.title + ", "+ "type: " 

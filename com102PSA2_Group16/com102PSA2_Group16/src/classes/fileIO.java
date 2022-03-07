@@ -13,22 +13,23 @@ public class FileIO
     private static ArrayList<Loans> loanList = new ArrayList<Loans>();
     
     //declaring class variables   
-    private Scanner scanFile;
+    private Scanner scan;
+    private BufferedReader br;
+    private FileReader fr;
+    private String fileIn, fileOut, line;
     
     public void readItems() throws IOException 
     {   
-    String fileIn = "ITEMS.csv";
-    String fileOut = ""; //when writing to file
-    String line = null;
-    
-    
-        
+    fileIn = "ITEMS.csv";
+    fileOut = ""; //when writing to file
+    line = null;
+       
     // Read all lines in from CSV file and add to itemList
         FileReader fileReader = new FileReader(fileIn);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        bufferedReader.readLine();
+        br = new BufferedReader(fileReader);
+        br.readLine();
 
-        while ((line = bufferedReader.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             String[] temp = line.split(",");
             String barcode = temp[0];
             String author = temp[1];
@@ -38,23 +39,23 @@ public class FileIO
             String isbn = temp[5];
             itemList.add(new Items(barcode, author, title, type, year, isbn));
         }
-        bufferedReader.close();             
+        br.close();             
     }
     
     public void readUsers() throws IOException
     {
-    String fileIn = "USERS.csv";
-    String fileOut = ""; //when writing to file
-    String line = null;
+     fileIn = "USERS.csv";
+     fileOut = ""; //when writing to file
+     line = null;
     
     
         
     // Read all lines in from CSV file and add to itemList
-        FileReader fileReader = new FileReader(fileIn);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        bufferedReader.readLine();
+        fr = new FileReader(fileIn);
+        br = new BufferedReader(fr);
+        br.readLine();
 
-        while ((line = bufferedReader.readLine()) != null) {
+        while ((line = br.readLine()) != null) { 
             String[] temp = line.split(",");
             String userID = temp[0];
             String forename = temp[1];
@@ -63,7 +64,7 @@ public class FileIO
 
             userList.add(new Users(userID, forename, surname, email));
         }
-        bufferedReader.close();             
+        br.close();             
     }       
 
     
@@ -77,18 +78,18 @@ public class FileIO
     
     public void readLoans() throws IOException, Exception 
     {
-    String fileIn = "LOANS.csv";
-    String fileOut = ""; //when writing to file
-    String line = null;
+    fileIn = "LOANS.csv";
+    fileOut = ""; //when writing to file
+    line = null;
     
     
         
     // Read all lines in from CSV file and add to itemList
-        FileReader fileReader = new FileReader(fileIn);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        bufferedReader.readLine();
+        fr = new FileReader(fileIn);
+        br = new BufferedReader(fr);
+        br.readLine();
 
-        while ((line = bufferedReader.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             String[] temp = line.split(",");
             String barcode = temp[0];
             String userID = temp[1];
@@ -97,13 +98,15 @@ public class FileIO
             int numRenews = Integer.parseInt(temp[4]);
             loanList.add(new Loans(barcode, userID, issueDate, dueDate, numRenews));
         }
-        bufferedReader.close();    
+        br.close();    
         
 //            these 2 lines below are temporary!!!!!
 //            System.out.println(loans.StringToDate(issueDate));
 //            System.out.println(loans.StringToDate(dueDate));
     }
     
+    
+    //could shorten these down into 1 method????????????????????????
     public void printLoanSummary()
     {         
         for(Loans loans : loanList)
@@ -112,6 +115,11 @@ public class FileIO
         }
     }
     
+    public void printUser()
+    {
+        Users user = userList.get(1);
+        System.out.println(user.getUserID());
+    }
 
     public void printItemSummary()
     {
@@ -128,6 +136,64 @@ public class FileIO
 
 
 //        System.out.println(itemList.get(2));
+    }
+    
+    public Loans createLoan()
+    {
+        Loans newLoan = null;
+        boolean available = false, loanBarcodeFound = false, itemBarcodeFound = false, userFound = false;
+        scan = new Scanner(System.in);
+        String inputUserId, inputBarcode, userStrNotFound, itemBarcodeStr, loanBarcodeStr;
+        FileIO file = new FileIO();
+        
+        //getting user input for new loan details
+        System.out.println("Please enter User ID for loan. ");
+        inputUserId = scan.nextLine();
+        System.out.println("Please enter barcode for loan. ");
+        inputBarcode = scan.nextLine();
+        
+        
+        //looping through users to ensure that they exist
+        for (Users user : userList)
+        {
+            if (inputUserId.equals(user.getUserID()))
+                userFound = true;
+            else
+                userStrNotFound = "This User ID does not exist. ";               
+        }
+       
+        //Looping through iteem array to ensure barcode actually exists
+        for (Items item : itemList)
+        {
+            if (inputBarcode.equals(item.getBarcode()))         
+                itemBarcodeFound = true;  
+        }
+
+        //Looping through loan array to ensure that barcode is not already in use 
+        for (Loans loan : loanList)
+        {
+            if (inputBarcode.equals(loan.getBarcode()))               
+                loanBarcodeFound = true;  
+        } 
+        
+        //decision structure to ensure loan is available
+        if (loanBarcodeFound == false && itemBarcodeFound == true)        
+                available = true;                   
+                if (available == true)
+                    System.out.println("\nThis item is available for loan!\n");
+                else
+                {
+                    System.out.println("\nThis loan couldn't be created for the specified reason(s)\n");
+                    if (itemBarcodeFound == false)
+                        System.out.println(" - The item barcode doesn't exist. ");
+                    if (loanBarcodeFound == true)
+                        System.out.println(" - The item is already on loan. ");
+                    if (userFound == false)
+                        System.out.println(" - The user ID doesnt exist. ");                    
+                }       
+            
+                                
+        return newLoan;
     }
 }
 

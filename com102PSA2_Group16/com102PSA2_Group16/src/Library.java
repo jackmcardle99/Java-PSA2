@@ -15,17 +15,25 @@ public class Library {
     
     private Scanner scan;
     
-    FileIO file = new FileIO();
-    //
+    FileIO file  = new FileIO();
+    Loans loan = new Loans();
+    Users user = new Users();
+
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
         // TODO code application logic here
         Library lib = new Library();
-        
+        lib.initialRead();
         lib.menu();
     }
     
+    private void initialRead() throws IOException, Exception
+    {
+        file.readItems();
+        file.readUsers();
+        file.readLoans();
+    }
     
     private void menu() throws FileNotFoundException, IOException, Exception {
         
@@ -34,34 +42,34 @@ public class Library {
         scan = new Scanner(System.in);
         
         while (respone) {
-            System.out.println("What would you like to do?");
-            System.out.println("(1) View items on loan \n"
+            System.out.println("\nWhat would you like to do?\n");
+            System.out.println("(1) N/A \n"
                              + "(2) View all items \n"
                              + "(3) View all users \n" 
-                             + "(4) Date \n"
-                             + "(5) Stop Program ");
+                             + "(4) View items on loan \n"
+                             + "(5) Issue new loan \n"
+                             + "(6) Stop program\n"); 
             
             userInput = scan.nextInt();
             
-          /* Important!!! repeating input will duplicate file length, e.g. pressing 3 two times will double length
-            */ 
             switch (userInput) {
                 case 1: userInput = 1;
+                    file.printUser();
                     break;
                 case 2: userInput = 2;
-                    file.readItems();
                     file.printItemSummary();
                     break;
                 case 3: userInput = 3;
-                    file.readUsers();
                     file.printUserSummary();
                     break;
                 case 4: userInput = 4;
-                    file.readLoans();
                     file.printLoanSummary();                   
-                    break;                   
+                    break;
                 case 5: userInput = 5;
-                System.out.println("Application Terminated");
+                    file.createLoan();
+                    break;      
+                case 6: userInput = 6;
+                System.out.println("\nApplication Terminated");
                 respone = false;
                 
 

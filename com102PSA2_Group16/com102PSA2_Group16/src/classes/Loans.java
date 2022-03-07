@@ -8,15 +8,20 @@ import java.time.*;
 
 public class Loans {
     
-    //instatiating the date object
-    //Date date = new Date(); 
-    
-    // declaring class variables
+// declaring class variables
     private String bardcode, userID, issueDate, dueDate;
+    
     //declaring as final means we cannot alter values 
     private final int mediaLoan = 7, bookLoan = 28, maxBookRenew = 3, maxMediaRenew = 2;     
     private int renewCount; //counting number of renewals 
     private Scanner scan;
+    FileIO file = new FileIO();
+    Items item1 = new Items();
+    
+    //creating instances of arraylists from fileio class
+    ArrayList<Users> userList = file.getUserList();
+    ArrayList<Items> itemList = file.getItemList(); 
+    ArrayList<Loans> loanList = file.getLoanList();
     
     public Loans(String barcode, String userID, String issueDate, String dueDate, int renewCount)
     {
@@ -27,15 +32,98 @@ public class Loans {
         this.renewCount = renewCount;       
     }
     
+    //overload contructor! Dont remove
     public Loans()
-    {
-         
+    {   
     }
  
+    public boolean loanEligibility()
+    {
+        Loans newLoan = null;
+        boolean available = false, loanBarcodeFound = false, itemBarcodeFound = false, userFound = false;
+        scan = new Scanner(System.in);
+        String inputUserId, inputBarcode;
+        
+            
+        //getting user input for new loan details
+        System.out.println("\nPlease enter User ID for loan. ");
+        inputUserId = scan.nextLine();
+        System.out.println("Please enter barcode for loan. ");
+        inputBarcode = scan.nextLine();
+        
+        //looping through users to ensure that they exist
+        for (Users user : userList)
+        {
+            if (inputUserId.equals(user.getUserID()))
+                userFound = true;          
+        }
+       
+        //Looping through iteem array to ensure barcode actually exists   
+        for (Items item : itemList)
+        {
+            if (inputBarcode.equals(item.getBarcode()))         
+                itemBarcodeFound = true;  
+        }
+
+        //Looping through loan array to ensure that barcode is not already in use 
+        for (Loans loan : loanList)
+        {
+            if (inputBarcode.equals(loan.getBarcode()))               
+                loanBarcodeFound = true;  
+        } 
+        
+        //decision structure to ensure loan is available
+        if (loanBarcodeFound == false && itemBarcodeFound == true)        
+                available = true;                   
+                if (available == true)
+                {
+                    System.out.println("\nThis item is available for loan!\n");                   
+                }
+                else 
+                {
+                    System.out.println("\nThis loan couldn't be created for the specified reason(s)\n");
+                    if (itemBarcodeFound == false)
+                        System.out.println(" - The item barcode doesn't exist. ");
+                    if (loanBarcodeFound == true)
+                        System.out.println(" - The item is already on loan. ");
+                    if (userFound == false)
+                        System.out.println(" - The user ID doesnt exist. ");     
+                    this.loanEligibility();
+                }   
+        return available;
+    }
     
+    public Loans createLoan(boolean availability)
+    {
+        Loans newLoan = null;
+        
+        for (Items item : itemList)
+        {
+            if(item.getType().equals("Book"))
+            {
+                //loan 28 days
+            }
+            else
+            {
+                //loan 7 days
+            }
+        }
+        
+        //if item = book 14 days
+        //if item = media 7 days
+        
+        //barcode = item barcode
+        //userid = user id
+        // then determine date
+        //num renews
+        return newLoan;
+    }
+            
     public void renewLoan()
     {
-        
+        //if item < 3 renewals, then renew
+        //if renew = true renewCount +=1
+        //book has max renewal of 3, media has max renewal of 2, they are declared at top of class
     }
     
     public String toString()

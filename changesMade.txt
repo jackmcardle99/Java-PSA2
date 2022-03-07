@@ -1,3 +1,2 @@
-1.) changed switchcase, it does not read file when input is entered, instead it reads it when program starts by calling initRead method
-
+1.) split createLoan method into 2 methods, loanEligibility and createLoan, and moved it into loans class
 2.) 

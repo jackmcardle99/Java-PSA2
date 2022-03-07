@@ -66,7 +66,8 @@ public class Library {
                     file.printLoanSummary();                   
                     break;
                 case 5: userInput = 5;
-                    file.createLoan();
+                     loan.createLoan(loan.loanEligibility());
+                   
                     break;      
                 case 6: userInput = 6;
                 System.out.println("\nApplication Terminated");

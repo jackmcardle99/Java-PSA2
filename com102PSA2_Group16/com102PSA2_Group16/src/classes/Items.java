@@ -18,6 +18,12 @@ public class Items {
         this.isbn = isbn;
     }
     
+    //overload contructor! Dont remove
+    public Items()
+    {
+        
+    }
+    
     public String toString(){ //method to output content of items file as string
         String itemsOutput =  "Barcode: " + this.barcode + ", " + "author: " 
                 + this.author + ", " + "title: " + this.title + ", "+ "type: " 

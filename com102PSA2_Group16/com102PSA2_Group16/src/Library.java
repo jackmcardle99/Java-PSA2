@@ -19,7 +19,7 @@ public class Library {
     //
 
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
         // TODO code application logic here
         Library lib = new Library();
         
@@ -27,7 +27,7 @@ public class Library {
     }
     
     
-    private void menu() throws FileNotFoundException, IOException {
+    private void menu() throws FileNotFoundException, IOException, Exception {
         
         boolean respone = true;
         int userInput;

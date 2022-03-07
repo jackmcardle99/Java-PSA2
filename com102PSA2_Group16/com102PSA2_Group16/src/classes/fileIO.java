@@ -1,7 +1,8 @@
 package classes;
 
+import java.io.BufferedReader;
 import java.util.*;
-import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class FileIO 
@@ -13,62 +14,58 @@ public class FileIO
     
     //declaring class variables   
     private Scanner scanFile;
-    private File readFile;
-    private StringTokenizer token;
     
     public void readItems() throws IOException 
     {   
-        //inpu8tting the file into the program
-        readFile = new File("ITEMS.csv");
-        scanFile = new Scanner(readFile);
-        scanFile.nextLine(); //skips first line of file
-        token = null;
+    String fileIn = "ITEMS.csv";
+    String fileOut = ""; //when writing to file
+    String line = null;
+    
+    
         
-        //initializing variables that will be needed to represent the objects from items
-        String barcode, author, title, type, isbn = "";
-        Short year = 0;
-        
-        while(scanFile.hasNextLine()) {
-            //telling the tokenizer that ',' is the delimiter between tokens
-            token = new StringTokenizer(scanFile.nextLine(), ",");        
-            //assigning each token to its related variable
-            barcode = token.nextToken();
-            author = token.nextToken();
-            title = token.nextToken();
-            type = token.nextToken();
-            year = Short.parseShort(token.nextToken());
-            isbn = token.nextToken();
-            
-            Items items = new Items(barcode, author, title, type, year, isbn);
-            
-            itemList.add(items);         
-        } 
+    // Read all lines in from CSV file and add to itemList
+        FileReader fileReader = new FileReader(fileIn);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        bufferedReader.readLine();
+
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] temp = line.split(",");
+            String barcode = temp[0];
+            String author = temp[1];
+            String title = temp[2];
+            String type = temp[3];
+            short year = Short.parseShort(temp[4]);
+            String isbn = temp[5];
+            itemList.add(new Items(barcode, author, title, type, year, isbn));
+        }
+        bufferedReader.close();             
     }
     
     public void readUsers() throws IOException
     {
-        readFile = new File("USERS.csv");
-        scanFile = new Scanner(readFile);
-        scanFile.nextLine(); //skips first line
-        token = null;
+    String fileIn = "USERS.csv";
+    String fileOut = ""; //when writing to file
+    String line = null;
+    
+    
         
-        String userID, forename, surname, email = "";
-        
-        while(scanFile.hasNextLine())
-        {
-            //telling the tokenizer that ',' is the delimiter between tokens
-            token = new StringTokenizer(scanFile.nextLine(), ",");         
-            userID = token.nextToken();
-            forename = token.nextToken();
-            surname = token.nextToken();
-            email = token.nextToken();
-            
-            //passing variables to user objects
-            Users users = new Users(userID, forename, surname, email);
-            
-            userList.add(users); 
-        }      
-    }
+    // Read all lines in from CSV file and add to itemList
+        FileReader fileReader = new FileReader(fileIn);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        bufferedReader.readLine();
+
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] temp = line.split(",");
+            String userID = temp[0];
+            String forename = temp[1];
+            String surname = temp[2];
+            String email = temp[3];
+
+            userList.add(new Users(userID, forename, surname, email));
+        }
+        bufferedReader.close();             
+    }       
+
     
     public void printUserSummary()
     {
@@ -78,40 +75,35 @@ public class FileIO
         }
     } 
     
-    public void readLoans() throws IOException, Exception
+    public void readLoans() throws IOException, Exception 
     {
-         readFile = new File("LOANS.csv");
-         scanFile = new Scanner(readFile);       
-         scanFile.nextLine(); //skips first line of file
-         token = null;
-         
-         String barcode, userID, issueDate, dueDate;
-         int numRenews;
+    String fileIn = "LOANS.csv";
+    String fileOut = ""; //when writing to file
+    String line = null;
+    
+    
+        
+    // Read all lines in from CSV file and add to itemList
+        FileReader fileReader = new FileReader(fileIn);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        bufferedReader.readLine();
 
-// may need these 2 lines below dont remove
-//         Date issueDate = new Date(int year, int month, int date);
-//         Date dueDate;
-         
-        while(scanFile.hasNextLine())
-        {
-            token = new StringTokenizer(scanFile.nextLine(), ",");
-            barcode = token.nextToken();
-            userID = token.nextToken();
-            issueDate = token.nextToken();
-            dueDate = token.nextToken();
-            numRenews = Integer.parseInt(token.nextToken());
-            
-            Loans loans = new Loans(barcode, userID, issueDate, dueDate, numRenews);
-            
-            loanList.add(loans);
-            
-            //  these 2 lines below are temporary!!!!!
-            System.out.println(loans.StringToDate(issueDate));
-            System.out.println(loans.StringToDate(dueDate));
-            
-        }   
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] temp = line.split(",");
+            String barcode = temp[0];
+            String userID = temp[1];
+            String issueDate = temp[2];
+            String dueDate = temp[3];
+            int numRenews = Integer.parseInt(temp[4]);
+            loanList.add(new Loans(barcode, userID, issueDate, dueDate, numRenews));
+        }
+        bufferedReader.close();    
+        
+//            these 2 lines below are temporary!!!!!
+//            System.out.println(loans.StringToDate(issueDate));
+//            System.out.println(loans.StringToDate(dueDate));
     }
-   
+    
     public void printLoanSummary()
     {         
         for(Loans loans : loanList)
@@ -120,7 +112,9 @@ public class FileIO
         }
     }
     
-    public void printItemSummary() {
+
+    public void printItemSummary()
+    {
         for(Items items: itemList) {  
             System.out.println(items);        //shows all items in the ITEMS.csv line by line
         }
@@ -130,9 +124,10 @@ public class FileIO
 //            System.out.println(itemList.get(index++).getBarcode());    //shows all barcodes available
 //        }
                
-//        System.out.println(itemList.get(2).getBarcode());  //Shows barcode in pos 2
+//        System.out.println(itemList.get(0).getBarcode());  //Shows barcode in pos 2
 
 
 //        System.out.println(itemList.get(2));
     }
 }
+

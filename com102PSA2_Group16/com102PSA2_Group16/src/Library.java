@@ -68,8 +68,11 @@ public class Library {
                 case 5: userInput = 5;
                      loan.createLoan(loan.loanEligibility());
                    
-                    break;      
+                    break;  
                 case 6: userInput = 6;
+                    loan.addTime();
+                    break;
+                case 7: userInput = 7;
                 System.out.println("\nApplication Terminated");
                 respone = false;
                 

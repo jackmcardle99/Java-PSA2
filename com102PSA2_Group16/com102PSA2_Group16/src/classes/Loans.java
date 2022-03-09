@@ -3,6 +3,7 @@ package classes;
 import java.text.*;
 import java.util.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 //import java.time.LocalDate; //importing local date class
 
@@ -92,7 +93,7 @@ public class Loans {
                 }   
         return available;
     }
-    
+        
     public Loans createLoan(boolean availability)
     {
         Loans newLoan = null;
@@ -161,6 +162,22 @@ public class Loans {
 //        }
 //        return result;
 //    }
+    
+    public void addTime() {
+        LocalDate date = LocalDate.now(); //get current date in 00-00-0000 format
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d/MM/yyyy"); //declare the format of 00/00/0000
+        
+        LocalDate bookDays = date.plusDays(28); //used to add the amount of days for item type book
+        LocalDate multimediaDays = date.plusDays(14); //used to add the amount of days for item type book
+        String issueDate = date.format(formatters); //get the issue date (current day)
+        String dueDateBook = bookDays.format(formatters); //get the due date for books
+        String dueMultimedia = multimediaDays.format(formatters); //get due date for multimedia
+            
+        System.out.println(dueMultimedia); //simple print to show date will remove in final product
+    }
+    
+ 
+
     
     //getters
     public String getBarcode()

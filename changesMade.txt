@@ -1,2 +1,1 @@
-1.) split createLoan method into 2 methods, loanEligibility and createLoan, and moved it into loans class
-2.) 
+1). Added in the code that will be used for date for the entire program in Loans

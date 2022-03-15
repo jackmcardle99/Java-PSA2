@@ -1,3 +1,4 @@
+1). Added in the code that will be used for date for the entire program in Loans
 1) Allows librarian to create loan, will now be written to csv file on program exit
 2) Minor changes to methods in FileIO and Loans
 3) create loan is now made up of 3 methods, loanEligbility, loanType, createLoan, it then calls writeLoanCSV when finished.

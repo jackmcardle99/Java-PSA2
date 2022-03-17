@@ -53,7 +53,8 @@ public class Library {
                              + "(3) View all users \n" 
                              + "(4) View items on loan \n"
                              + "(5) Issue new loan \n"
-                             + "(6) Stop program\n"); 
+                             + "(6) Renew Loan\n"
+                             + "(7) Stop program\n"); 
             
             userInput = scan.nextInt();
             
@@ -76,13 +77,14 @@ public class Library {
 //                    this.initialRead();
                     break;  
                 case 6: userInput = 6;
-                   // loan.addTime();
+                    loan.renewLoanEligibility();
+                    loan.renewLoan(loan.getLoanType());
                     break;
                 case 7: userInput = 7;
-                loan.createLoan(loan.getLoanType());
+                    loan.createLoan(loan.getLoanType());
                 
-                System.out.println("\nApplication Terminated");
-                response = false;
+                    System.out.println("\nApplication Terminated");
+                    response = false;
                 
 
                 //ADD SLEEP TIMER FOR INPUT                                

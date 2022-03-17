@@ -56,8 +56,6 @@ public class Loans {
         }
         
 //        //Looping through iteem array to ensure barcode actually exists   
-        
-      
         for (Items item : itemList)
         {
             if (inputBarcode.equals(item.getBarcode()))  
@@ -123,7 +121,7 @@ public class Loans {
         dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); //declare the format of 00/00/0000
         LocalDate bookDays = date.plusDays(bookLoan); //used to add the amount of days for item type book
         LocalDate multimediaDays = date.plusDays(mediaLoan); //used to add the amount of days for item type book
-        String issueDate = date.format(dateFormat); //get the issue date (current day)
+        String addIssueDate = date.format(dateFormat); //get the issue date (current day)
         String dueBook = bookDays.format(dateFormat); //get the due date for books
         String dueMultimedia = multimediaDays.format(dateFormat); //get due date for multimedia
         
@@ -131,22 +129,68 @@ public class Loans {
 
         if(loanType.equals("Book"))
         {
-            newLoan += issueDate + "," + dueBook + "," + "0";
+            newLoan += addIssueDate + "," + dueBook + "," + "0";
         }
         else if (loanType.equals("Multimedia"))
         {
-            newLoan += issueDate + "," + dueMultimedia + "," + "0";
+            newLoan += addIssueDate + "," + dueMultimedia + "," + "0";
         }
         
      
         file.writeToLoans(newLoan);
+        
+        
     }
             
-    public void renewLoan()
+    public void renewLoan(String loanType) throws IOException
     {
+        System.out.println(loanType); 
+
+        
+        int length = loanList.size();
+       
+ 
+        for (int i = 0; i < length; i++)
+        {
+            if(loanList.get(i).getBarcode().equals(this.inputBarcode))
+            {
+               renewCount = (loanList.get(i).getRenewCount() + 1);
+
+               System.out.println(renewCount); 
+            }     
+        }
+        
+    
         //if item < 3 renewals, then renew
         //if renew = true renewCount +=1
         //book has max renewal of 3, media has max renewal of 2, they are declared at top of class
+        
+        //The program should allow the librarian to renew an existing loan.
+        //On supply of the item barcode, the loan’s return date is increased by two weeks from the current
+        //date for books and one week for multimedia items and the number of renews is increased by one. A
+        //book cannot be renewed more than three times and the maximum number of renews for a
+        //multimedia item is two.
+    }
+    
+    public void renewLoanEligibility() throws IOException
+    {
+        scan = new Scanner(System.in);
+        boolean loanBarcodeFound = false;
+        
+        System.out.println("Please enter barcode of current loan you wish to renew. ");
+        inputBarcode = scan.nextLine();
+        
+        
+        for (Loans loan : loanList)
+        {
+            if (inputBarcode.equals(loan.getBarcode()))  
+            {  
+                loanBarcodeFound = false;     
+            }  
+        }
+        
+        this.getLoanType(inputBarcode);
+                
     }
     
     public String toString()
@@ -181,9 +225,11 @@ public class Loans {
     {
         return this.renewCount;
     }
-    
+        
     public String getLoanType()
     {
         return this.loanType;
     }
+    
+    
 }

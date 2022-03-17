@@ -151,7 +151,7 @@ public class FileIO
             Logger.getLogger(FileIO.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
-    
+        
     public void clearArray()
     {
        itemList.clear();

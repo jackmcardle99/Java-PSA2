@@ -8,6 +8,7 @@ public class Loans {
     
 // declaring class variables
     private String bardcode, userID, issueDate, dueDate, loanType;
+    private String book = "Book", multimedia = "Multimedia";
     private LocalDate date;
     private DateTimeFormatter dateFormat;
 //declaring as final means we cannot alter values 
@@ -16,7 +17,7 @@ public class Loans {
     private Scanner scan;
     FileIO file = new FileIO();
     Items item1 = new Items();
-    private String inputUserId, inputBarcode;
+    private String inputUserId, inputBarcode, renewBarcode;
 //creating instances of arraylists from fileio class
     ArrayList<Users> userList = file.getUserList();
     ArrayList<Items> itemList = file.getItemList(); 
@@ -102,12 +103,12 @@ public class Loans {
  
         for (int i = 0; i < length; i++)
         {
-            if (itemList.get(i).getBarcode().equals(this.inputBarcode) && itemList.get(i).getType().equals("Book"))
+            if (itemList.get(i).getBarcode().equals(this.inputBarcode) && itemList.get(i).getType().equals(book))
             {
                 loanType = "Book";
                 
             }
-            else if (itemList.get(i).getBarcode().equals(this.inputBarcode) && itemList.get(i).getType().equals("Multimedia"))
+            else if (itemList.get(i).getBarcode().equals(this.inputBarcode) && itemList.get(i).getType().equals(multimedia))
             {
                 loanType = "Multimedia";         
             } 
@@ -143,21 +144,44 @@ public class Loans {
     }
             
     public void renewLoan(String loanType) throws IOException
-    {
-        System.out.println(loanType); 
-
+    {   
+//        date = LocalDate.now(); //get current date in 00-00-0000 format
+//        dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); //declare the format of 00/00/0000
+//        LocalDate bookDays = date.plusDays(bookLoan); //used to add the amount of days for item type book
+//        LocalDate multimediaDays = date.plusDays(mediaLoan); //used to add the amount of days for item type book
+//        String addIssueDate = date.format(dateFormat); //get the issue date (current day)
+//        String dueBook = bookDays.format(dateFormat); //get the due date for books
+//        String dueMultimedia = multimediaDays.format(dateFormat); //get due date for multimedia  
+//        
+//        LocalDate newDueDate;
+//        //LocalDate currDueDate = this.getDueDate();
+//        
+//        if (loanType.equals("Book"))
+//        {
+//            newDueDate = this.getDueDate()
+//        }
+//        else
+//        {
+//            
+//        }
+        
+        
         
         int length = loanList.size();
        
  
         for (int i = 0; i < length; i++)
         {
-            if(loanList.get(i).getBarcode().equals(this.inputBarcode))
+            if(loanList.get(i).getBarcode().equals(this.renewBarcode) && loanList.get(i).getRenewCount() < 3)
             {
                renewCount = (loanList.get(i).getRenewCount() + 1);
 
                System.out.println(renewCount); 
-            }     
+            }
+            else
+            {
+                
+            }
         }
         
     
@@ -176,20 +200,41 @@ public class Loans {
     {
         scan = new Scanner(System.in);
         boolean loanBarcodeFound = false;
+        boolean eligible = false;
         
-        System.out.println("Please enter barcode of current loan you wish to renew. ");
-        inputBarcode = scan.nextLine();
-        
-        
-        for (Loans loan : loanList)
+        System.out.println("Please enter barcode of current loan you wish to renew.");
+        renewBarcode = scan.nextLine();
+        String loanType = this.getLoanType(renewBarcode); //calling method to check item type  
+
+        int length = loanList.size();
+ 
+        for (int i = 0; i < length; i++)
         {
-            if (inputBarcode.equals(loan.getBarcode()))  
-            {  
-                loanBarcodeFound = false;     
-            }  
+            if(loanList.get(i).getBarcode().equals(this.renewBarcode) && loanType.equals(book))
+            {
+                if (loanList.get(i).getRenewCount() < maxBookRenew)
+                {
+                    //RETURN SOMETHING
+                }
+            }
+            else if (loanList.get(i).getBarcode().equals(this.renewBarcode) && loanType.equals(multimedia))
+            {
+                if (loanList.get(i).getRenewCount() < maxMediaRenew)
+                {
+                    //RETURN SOMETHING
+                }
+            }
         }
+
+
+//        for (Loans loan : loanList)
+//        {
+//            if (renewBarcode.equals(loan.getBarcode()))  
+//            {  
+//                loanBarcodeFound = true;     
+//            }  
+//        }
         
-        this.getLoanType(inputBarcode);
                 
     }
     

@@ -77,8 +77,7 @@ public class Library {
 //                    this.initialRead();
                     break;  
                 case 6: userInput = 6;
-                    loan.renewLoanEligibility();
-                    loan.renewLoan(loan.getLoanType());
+                    loan.renewLoan(loan.renewLoanEligibility());
                     break;
                 case 7: userInput = 7;
                     loan.createLoan(loan.getLoanType());

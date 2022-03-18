@@ -151,7 +151,8 @@ public class FileIO
             Logger.getLogger(FileIO.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
-        
+        //line = each line of csv
+    //writing at a single line of a csv
     public void clearArray()
     {
        itemList.clear();

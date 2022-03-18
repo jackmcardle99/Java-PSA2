@@ -19,12 +19,20 @@ public class FileIO
     private FileWriter fw;
     private String fileIn, fileOut, line;    
     
+    //Loans loan = new Loans();
     //getters for arraylists, so we can use in other classes if needed
     public ArrayList<Items> getItemList()
     {
         return itemList;
     }
     
+    public void printArray()
+    {
+        for (Loans loans : loanList)
+        {
+            System.out.println(loans);
+        }
+    }
     public ArrayList<Users> getUserList()
     {
         return userList;
@@ -139,27 +147,22 @@ public class FileIO
         System.out.println(user.getUserID());
     }
 
-    public void writeToLoans(String newLoan) // WHEN PROGRAM EXITS THIS IS CALLED
-    {      
-        try {
-            fileOut = "LOANS.csv";
-            fw = new FileWriter(fileOut, true);
-            outputStream = new BufferedWriter(fw);
-            outputStream.write(newLoan + "\n");             
-            outputStream.close();
-        } catch (IOException ex) {
-            Logger.getLogger(FileIO.class.getName()).log(Level.SEVERE, null, ex);
-        }    
-    }
-        //line = each line of csv
-    //writing at a single line of a csv
-    public void clearArray()
-    {
-       itemList.clear();
-       loanList.clear();
-       userList.clear();
-       
-    }
-    
+    public void writeNewLoan() throws IOException // WHEN PROGRAM EXITS THIS IS CALLED
+    {   
+        int lenght = loanList.size();
+        Loans loan = new Loans();
+        fileOut = "LOANS.csv";
+        fw = new FileWriter(fileOut, false); //false means overwriting
+        outputStream = new BufferedWriter(fw);
+        
+        outputStream.write("Barcode,User_id,Issue_Date,Due_Date,numRenews");
+        outputStream.newLine();
+        for (int i = 0; i < lenght; i++)
+        {         
+            outputStream.write(loanList.get(i).toFileString());
+            outputStream.newLine();
+        }
+        outputStream.close();  
+    }  
 }
 

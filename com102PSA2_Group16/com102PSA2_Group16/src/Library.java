@@ -40,6 +40,11 @@ public class Library {
         file.readLoans();
     }
     
+    private void writeOnExit() throws IOException
+    {
+       file.writeNewLoan();
+    }
+            
     private void menu() throws FileNotFoundException, IOException, Exception {
         
         boolean response = true;
@@ -54,13 +59,14 @@ public class Library {
                              + "(4) View items on loan \n"
                              + "(5) Issue new loan \n"
                              + "(6) Renew Loan\n"
-                             + "(7) Stop program\n"); 
+                             + "(7) Refresh Library\n"
+                             + "(8) Stop program\n"); 
             
             userInput = scan.nextInt();
             
             switch (userInput) {
                 case 1: userInput = 1;
-                   // loan.addTime();
+                    file.printArray();
                     break;
                 case 2: userInput = 2;
                     file.printItemSummary();
@@ -73,15 +79,17 @@ public class Library {
                     break;
                 case 5: userInput = 5;
                     loan.loanEligibility();
-//                    file.clearArray();
-//                    this.initialRead();
                     break;  
                 case 6: userInput = 6;
-                    loan.renewLoan(loan.renewLoanEligibility());
+                    loan.renewLoanEligibility();
                     break;
                 case 7: userInput = 7;
-                    loan.createLoan(loan.getLoanType());
-                
+                    this.initialRead();
+                    break;
+                case 8: userInput = 8;
+                    this.writeOnExit();
+                    //loan.createLoan(loan.getLoanType());    
+                    
                     System.out.println("\nApplication Terminated");
                     response = false;
                 

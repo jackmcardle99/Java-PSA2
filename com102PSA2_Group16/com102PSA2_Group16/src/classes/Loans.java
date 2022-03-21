@@ -17,7 +17,7 @@ public class Loans {
     private Scanner scan;
     FileIO file = new FileIO();
     Items item1 = new Items();
-    private String inputBarcode, inputUserId;
+    private String inputBarcode, inputUserId, removeConfirm;
 //creating instances of arraylists from fileio class
     ArrayList<Users> userList = file.getUserList();
     ArrayList<Items> itemList = file.getItemList(); 
@@ -65,7 +65,7 @@ public class Loans {
                 userFound = true;          
         }
         
-//        //Looping through iteem array to ensure barcode actually exists   
+       //Looping through item array to ensure barcode actually exists   
         for (Items item : itemList)
         {
             if (inputBarcode.equals(item.getBarcode()))  
@@ -104,9 +104,12 @@ public class Loans {
     }
     
     public String getLoanType(String inputBarcode) throws IOException
-    {        
+    {   
+        //variable to contain itemList size as int 
         int length = itemList.size();
         
+        //loops through itemlist using the inputBarcode to see if itemList type equals Book or Multimedia 
+        //then returns loantype containing either multimedia or book
         for (int i = 0; i < length; i++)
         {
             if (itemList.get(i).getBarcode().equals(inputBarcode) && itemList.get(i).getType().equals(book))
@@ -123,6 +126,7 @@ public class Loans {
     
      public void createLoan(String loanType) throws IOException
     {
+        //code used for getting the date converting the date format and adding time
         date = LocalDate.now(); //get current date in 00-00-0000 format
         dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); //declare the format of 00/00/0000
         LocalDate bookDays = date.plusDays(bookLoan); //used to add the amount of days for item type book
@@ -131,12 +135,15 @@ public class Loans {
         String dueBook = bookDays.format(dateFormat); //get the due date for books
         String dueMultimedia = multimediaDays.format(dateFormat); //get due date for multimedia
         
+        //temp variables that will be used to add new loan to loanList Array
         String tempBarcode;
         String tempUserID; 
         String tempIssueDate; 
         String tempDueDate; 
         int tempNumRenews;
 
+        //if loantype equals book get the data from variables accordingly and put them into the temp variables
+        //to then be added to the loanList array
         if(loanType.equals(book))
         {
             tempBarcode = inputBarcode; 
@@ -147,6 +154,8 @@ public class Loans {
             
             loanList.add(new Loans(tempBarcode, tempUserID, tempIssueDate, tempDueDate, tempNumRenews));
         }
+        //if loantype equals multimedia get the data from variables accordingly and put them into the temp variables
+        //to then be added to the loanList array
         else if (loanType.equals(multimedia))
         {
             tempBarcode = inputBarcode; 
@@ -158,6 +167,7 @@ public class Loans {
             loanList.add(new Loans(tempBarcode, tempUserID, tempIssueDate, tempDueDate, tempNumRenews));
         }      
         
+        //loops through loans printing each row
         for (Loans loans : loanList)
         {
             System.out.println(loans);        
@@ -166,6 +176,7 @@ public class Loans {
             
     public void renewLoan(String loanType, String inputBarcode, String renewUserID, int renewCount) throws IOException
     {   
+        //code used for getting the date converting the date format and adding time
         date = LocalDate.now(); //get current date in 00-00-0000 format
         dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); //declare the format of 00/00/0000
         LocalDate bookDays = date.plusDays(bookLoan); //used to add the amount of days for item type book
@@ -173,8 +184,11 @@ public class Loans {
         String renewDate = date.format(dateFormat); //get the issue date (current day)
         String dueBook = bookDays.format(dateFormat); //get the due date for books
         String dueMultimedia = multimediaDays.format(dateFormat); //get due date for multimedia  
+        
+        //variable to contain itemList size as int 
         int length = loanList.size(); 
         
+        //structure for renewing the loan/+=1 to the renew count 
         for (int i = 0; i < length; i++)
         {   
             if (loanType.equals(book))
@@ -206,9 +220,11 @@ public class Loans {
         inputBarcode = scan.nextLine();
         String loanType = this.getLoanType(inputBarcode); //calling method to assign item type
         System.out.println(loanType);
-        int length = loanList.size(); 
+        int length = loanList.size(); //variable to contain itemList size as int 
         int renewCount;       
         
+        //Making sure that the book/multimedia is eligible for renew max book renew = 3 max multimedia = 2
+        //if the book renew == 3 or multimedia == 2 will show max renewal is reached
         for (int i = 0; i < length; i++)
         {
             if(loanList.get(i).getBarcode().equals(inputBarcode) && loanType.equals(book))
@@ -241,8 +257,67 @@ public class Loans {
         }              
     }
     
+    public void returnLoan()
+    {
+                 
+        boolean available = false, loanBarcodeFound = false, itemBarcodeFound = false;
+        scan = new Scanner(System.in);
+        int length = loanList.size();
+ 
+        //getting user input for the barcode in loans
+        System.out.println("Please enter barcode for loan. ");
+        inputBarcode = scan.nextLine();     
+        
+        //Looping through loan array to ensure that barcode is not already in use 
+        for (Loans loan : loanList)
+        {
+            if (inputBarcode.equals(loan.getBarcode()))               
+                loanBarcodeFound = false;  
+        }
+        
+        //Looping through item array to ensure barcode actually exists   
+        for (Items item : itemList)
+        {
+            if (inputBarcode.equals(item.getBarcode()))  
+            {  
+                itemBarcodeFound = true;     
+            }                  
+        }
+
+         //decision structure to ensure loan is present and if so remove confirmation and loan removal 
+        if (loanBarcodeFound == false && itemBarcodeFound == true)        
+                available = true;                   
+                if (available == true)
+                {
+                    System.out.println("\nDo you want to remove this loan? Y or N\n");     
+                    removeConfirm = scan.nextLine();
+                    
+                    if (removeConfirm.equals("Y") || removeConfirm.equals("y"))
+                    {
+                        for (int i = 0; i < loanList.size(); i++)
+                        {
+                            if(loanList.get(i).getBarcode().equals(inputBarcode))
+                            {
+                                loanList.remove(loanList.get(i));
+                                System.out.println("Loan Removed");
+                            }
+                        }  
+                    }   
+                }
+                else 
+                {
+                    if (itemBarcodeFound == false)
+                        System.out.println(" - The item barcode doesn't exist. "); 
+                }       
+        
+//  The program should allow the librarian to record the return of an item on loan. To do this, the librarian
+//  supplies the barcode. Items are always returned on or before their due date.
+//  When an item on loan is returned the corresponding loan object is removed from the list of loans.   
+    }
+        
     public String toString()
     {
+        //basic code to make the loanList readable and look good
         String loanOutput = "Barcode: " + this.bardcode + ", " + "User ID: " + this.userID 
                             + ", " + "Issue Date: " + this.issueDate + ", " + "Due Date: "
                             + this.dueDate + "' " + "Renewals: " + this.renewCount;
@@ -251,6 +326,7 @@ public class Loans {
     
     public String toFileString()
     {
+        //used for writing to the csv file using the correct format 
         String loanOutput = this.bardcode + "," + this.userID 
                             + "," + this.issueDate + "," + this.dueDate + "," + this.renewCount;
         return loanOutput;

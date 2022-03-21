@@ -30,19 +30,19 @@ public class Library {
     private void start() throws Exception
     {
         Library lib = new Library();
-        lib.initialRead();
-        lib.menu();
+        lib.initialRead(); //on start read files into arraylists
+        lib.menu(); //calls upon the menu method to allow user to access the program
     }
     private void initialRead() throws IOException, Exception
     {
-        file.readItems();
+        file.readItems(); //allows to read files into arraylists
         file.readUsers();
         file.readLoans();
     }
     
     private void writeOnExit() throws IOException
     {
-       file.writeNewLoan();
+       file.writeNewLoan(); //method to call on program termination to write to the files
     }
             
     private void menu() throws FileNotFoundException, IOException, Exception {
@@ -51,22 +51,26 @@ public class Library {
         int userInput;
         scan = new Scanner(System.in);
         
+        //basic structure for user input for user to use within the terminal
         while (response) {
             System.out.println("\nWhat would you like to do?\n");
-            System.out.println("(1) N/A \n"
-                             + "(2) View all items \n"
-                             + "(3) View all users \n" 
-                             + "(4) View items on loan \n"
-                             + "(5) Issue new loan \n"
-                             + "(6) Renew Loan\n"
-                             + "(7) Refresh Library\n"
-                             + "(8) Stop program\n"); 
+            System.out.println("""
+                               (1) TESTING NEW METHODS (PLACEHOLDER) 
+                               (2) View all items 
+                               (3) View all users 
+                               (4) View items on loan 
+                               (5) Issue new loan 
+                               (6) Renew Loan
+                               (7) Return Loan
+                               (8) Refresh Library
+                               (9) Stop program
+                               """); 
             
             userInput = scan.nextInt();
             
             switch (userInput) {
                 case 1: userInput = 1;
-                    file.printArray();
+//                    loan.returnLoan();
                     break;
                 case 2: userInput = 2;
                     file.printItemSummary();
@@ -83,10 +87,13 @@ public class Library {
                 case 6: userInput = 6;
                     loan.renewLoanEligibility();
                     break;
-                case 7: userInput = 7;
+                case 7:
+                    loan.returnLoan();
+                    break;
+                case 8: userInput = 7;
                     this.initialRead();
                     break;
-                case 8: userInput = 8;
+                case 9: userInput = 8;
                     this.writeOnExit();
                     //loan.createLoan(loan.getLoanType());    
                     
@@ -94,7 +101,7 @@ public class Library {
                     response = false;
                 
 
-                //ADD SLEEP TIMER FOR INPUT                                
+                //ADD SLEEP TIMER FOR INPUT 2/3 second                              
             }
         }    
     }

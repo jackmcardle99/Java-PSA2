@@ -1,3 +1,2 @@
-1) renew has been completed
-2) renew and create now updtae in arraylist first
-3) on program exit, csv is written from arraylist
+1) delete loan made/return loan item
+2) on barcode input the according loan is checked and removed on user input

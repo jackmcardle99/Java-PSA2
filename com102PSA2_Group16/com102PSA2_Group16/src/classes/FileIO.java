@@ -155,11 +155,11 @@ public class FileIO
         fw = new FileWriter(fileOut, false); //false means overwriting
         outputStream = new BufferedWriter(fw);
         
-        outputStream.write("Barcode,User_id,Issue_Date,Due_Date,numRenews");
+        outputStream.write("Barcode,User_id,Issue_Date,Due_Date,numRenews"); //making sure the heading is still  present when overwriting
         outputStream.newLine();
         for (int i = 0; i < lenght; i++)
         {         
-            outputStream.write(loanList.get(i).toFileString());
+            outputStream.write(loanList.get(i).toFileString());     //writing line by line with the format of toFileString from Loans file
             outputStream.newLine();
         }
         outputStream.close();  

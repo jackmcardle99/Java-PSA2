@@ -1,11 +1,13 @@
 package classes;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Users {
     
     private String userID, forename, surname, email;
-    
+    FileIO file = new FileIO(); //instatiating class
+    ArrayList<Users> userList = file.getUserList(); //instatiating arraylist
+    //constructor for users
     public Users(String userID, String forename, String surname, String email)
     {
         this.userID = userID;
@@ -14,38 +16,43 @@ public class Users {
         this.email = email;        
     }
     
-    //overload contructor! Dont remove
+    ///constructor overloading
     public Users()
-    {
-        
+    {     
     }
     
-    public String toString(){
+    //method for printing ArrayList summary
+    public void printUserSummary()
+    {
+        for(Users users : userList)
+        {
+            System.out.println(users);
+        }
+    } 
+    
+    public String toString()
+    {
         String usersOutput =  "User ID: " + this.userID + ", " + "Forename: " + this.forename 
-                + ", " + "Surname: " + this.surname + ", "+ "Email: " + this.email + ".";
-             
+                + ", " + "Surname: " + this.surname + ", "+ "Email: " + this.email + ".";             
         return usersOutput;  
     }
     
-    //getters and setters
+    // this method searches to see if user is found in array
+    public boolean findUser(String inputUserId)
+    {
+        boolean userFound = false;
+        for (Users user : userList)
+        {
+            if (inputUserId.equals(user.getUserID()))
+                userFound = true;          
+        }     
+        return userFound;
+    }
+    
+//getters for users class
     public String getUserID()
     {
         return this.userID;
     }
-    
-    public String getForename()
-    {
-        return this.forename;
-    }
-    
-    public String getSurname()
-    {
-        return this.surname;
-    }
-    
-    public String getEmail()
-    {
-        return this.email;
-    }
-    
+   
 }

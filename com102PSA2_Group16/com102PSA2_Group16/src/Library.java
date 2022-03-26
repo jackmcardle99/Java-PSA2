@@ -7,22 +7,21 @@ import java.util.*;
 /**
  *
  * @authors 
- * Jack McArdle - B00733578
- * Mark Allison - B00847098
+ * Jack McArdle - B00733578 - mcardle-j9@ulster.ac.uk
+ * Mark Allison - B00847098 - allison-m2@ulster.ac.uk
  */
 
 public class Library {
     
-    private Scanner scan;
-    
+    //declaring class variables and instatiating objects for other classes
+    private Scanner scan;    
     FileIO file  = new FileIO();
     Loans loan = new Loans();
     Users user = new Users();
+    Items item = new Items();
 
-
-
-    public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
-        // TODO code application logic here
+    public static void main(String[] args) throws FileNotFoundException, IOException, Exception 
+    {
         Library lib = new Library();
         lib.start();
     }
@@ -39,68 +38,64 @@ public class Library {
         file.readUsers();
         file.readLoans();
     }
-    
-    private void writeOnExit() throws IOException
-    {
-       file.writeNewLoan(); //method to call on program termination to write to the files
-    }
             
     private void menu() throws FileNotFoundException, IOException, Exception {
-        
+        int x = 0;
         boolean response = true;
-        int userInput;
+        String userInput;
         scan = new Scanner(System.in);
         
         //basic structure for user input for user to use within the terminal
         while (response) {
             System.out.println("\nWhat would you like to do?\n");
-            System.out.println("""
-                               (1) TESTING NEW METHODS (PLACEHOLDER) 
-                               (2) View all items 
-                               (3) View all users 
-                               (4) View items on loan 
-                               (5) Issue new loan 
-                               (6) Renew Loan
-                               (7) Return Loan
-                               (8) Refresh Library
-                               (9) Stop program
-                               """); 
-            
-            userInput = scan.nextInt();
-            
-            switch (userInput) {
-                case 1: userInput = 1;
-//                    loan.returnLoan();
+            System.out.println(""" 
+                               (1) View all items 
+                               (2) View all users 
+                               (3) View items on loan 
+                               (4) Issue new loan 
+                               (5) Renew Loan
+                               (6) Return Loan
+                               (7) Stop program
+                               """);   
+            userInput = scan.nextLine();          
+            try 
+            {
+                x = Integer.parseInt(userInput);
+                //if user doesnt enter number then catch exception
+            }catch(NumberFormatException e) 
+            {
+                System.out.println("Please enter a valid response (1-7)"); 
+                // catching exception here for input
+             }
+            // enuring input is within range of menu
+            if (x < 1 || x > 7)
+            {
+                System.out.println("Please enter a valid response (1-7)"); 
+                this.menu();
+            }
+            switch (x) {
+                case 1: x = 1;
+                    item.printItemSummary();  
                     break;
-                case 2: userInput = 2;
-                    file.printItemSummary();
+                case 2: x = 2;
+                    user.printUserSummary();
                     break;
-                case 3: userInput = 3;
-                    file.printUserSummary();
+                case 3: x = 3;
+                    loan.printLoanSummary();
                     break;
-                case 4: userInput = 4;
-                    file.printLoanSummary();                   
+                case 4: x = 4;
+                    loan.loanEligibility();                   
                     break;
-                case 5: userInput = 5;
-                    loan.loanEligibility();
-                    break;  
-                case 6: userInput = 6;
+                case 5: x = 5;
                     loan.renewLoanEligibility();
-                    break;
-                case 7:
+                    break;  
+                case 6: x = 6;
                     loan.returnLoan();
                     break;
-                case 8: userInput = 7;
-                    this.initialRead();
-                    break;
-                case 9: userInput = 8;
-                    this.writeOnExit();
-                    //loan.createLoan(loan.getLoanType());    
-                    
+                case 7: x = 7;
+                    file.writeToFile();
                     System.out.println("\nApplication Terminated");
                     response = false;
-                
-
                 //ADD SLEEP TIMER FOR INPUT 2/3 second                              
             }
         }    

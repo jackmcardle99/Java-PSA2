@@ -1,14 +1,15 @@
 package classes;
 
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
 
 public class Items {
-    private Scanner scan;
-    private String barcode, author, title, type, isbn;
-    private short year;
     
-    public Items(String barcode, String author, String title, String type, short year, String isbn)
+    //declaring class variables
+    private String barcode, author, title, type, year, isbn;
+    FileIO file = new  FileIO(); //instatiating class
+    ArrayList<Items> itemList = file.getItemList(); //instatiating arraylist
+   
+    public Items(String barcode, String author, String title, String type, String year, String isbn)
     {
         this.barcode = barcode;
         this.author = author;
@@ -18,10 +19,17 @@ public class Items {
         this.isbn = isbn;
     }
     
-    //overload contructor! Dont remove
+    //constructor overloading
     public Items()
+    {     
+    }
+    
+    //method for printing ArrayList summary
+    public void printItemSummary()
     {
-        
+        for(Items items: itemList) {  
+            System.out.println(items);       
+        }
     }
     
     public String toString(){ //method to output content of items file as string
@@ -32,28 +40,28 @@ public class Items {
         return itemsOutput;  
     }
     
-    public String getBarcode() {
+     // this method searches to see if item is found in array
+    public boolean findItem(String inputBarcode)
+    {
+        boolean itemBarcodeFound = false;
+        for (Items item : itemList)
+        {
+            if (inputBarcode.equals(item.getBarcode()))  
+            {  
+                itemBarcodeFound = true;     
+            }                  
+        }
+        return itemBarcodeFound;
+    }
+    
+//getters for items
+    public String getBarcode() 
+    {
         return this.barcode;
     }
-    
-    public String getAuthor() {
-        return this.author;
-    }
-    
-    public String getTitle() {
-        return this.title;
-    }
-    
-    public String getType() {
+
+    public String getType() 
+    {
         return this.type;
-    }
-    
-    public short getYear() {
-        return this.year;
-    }
-    
-    public String getISBN() {
-        return this.isbn;
-    }
-    
+    }   
 }

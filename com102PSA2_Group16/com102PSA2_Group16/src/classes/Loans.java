@@ -73,7 +73,7 @@ public class Loans {
     }
      
     // this method searches to see if loan is found in array
-    public boolean findLoan()
+    public boolean findLoan(String inputBarcode)
     {
         boolean loanBarcodeFound = false;
         for (Loans loan : loanList)
@@ -99,7 +99,7 @@ public class Loans {
        //calling methods to search arrays and assigning to boolean variables
         userFound = user.findUser(inputUserId);
         itemBarcodeFound = items.findItem(inputBarcode);
-        loanBarcodeFound = this.findLoan();
+        loanBarcodeFound = this.findLoan(inputBarcode);
         //decision structure to ensure loan is available
         if (loanBarcodeFound == false && itemBarcodeFound == true)        
                 available = true;                   
@@ -236,11 +236,12 @@ public class Loans {
     public void returnLoan()
     {          
         String confirm = "";
-        boolean loanBarcodeFound = this.findLoan(); //calling search method
+       
         scan = new Scanner(System.in);
         //getting user input for the barcode in loans
         System.out.println("Please enter barcode for loan. ");
-        inputBarcode = scan.nextLine();         
+        inputBarcode = scan.nextLine();  
+        boolean loanBarcodeFound = this.findLoan(inputBarcode); //calling search method
          //decision structure to ensure loan is present and if so remove confirmation and loan removal 
         if (loanBarcodeFound == true)
         {      

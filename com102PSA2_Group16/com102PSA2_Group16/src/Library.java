@@ -58,21 +58,16 @@ public class Library {
                                (7) Stop program
                                """);   
             userInput = scan.nextLine();          
-            try 
-            {
-                x = Integer.parseInt(userInput);
-                //if user doesnt enter number then catch exception
-            }catch(NumberFormatException e) 
-            {
+
+            try {
+            x = Integer.parseInt(userInput);
+            if (x < 1 || x > 7) {
                 System.out.println("Please enter a valid response (1-7)"); 
-                // catching exception here for input
-             }
-            // enuring input is within range of menu
-            if (x < 1 || x > 7)
-            {
-                System.out.println("Please enter a valid response (1-7)"); 
-                this.menu();
-            }
+            } 
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid response (1-7)"); 
+                }
+            
             switch (x) {
                 case 1: x = 1;
                     item.printItemSummary();  
@@ -91,6 +86,7 @@ public class Library {
                     break;  
                 case 6: x = 6;
                     loan.returnLoan();
+//                    loan.testing();
                     break;
                 case 7: x = 7;
                     file.writeToFile();

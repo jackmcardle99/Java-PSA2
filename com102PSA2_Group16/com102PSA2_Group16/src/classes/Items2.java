@@ -1,16 +1,15 @@
 package classes;
-
+//////////THIS CLASS HAS THE ORIGINAL ITEMS CODE//////////////
 import java.util.ArrayList;
 
-public class Items {
+public class Items2 {
     
     //declaring class variables
-    protected int loanLength, maxRenew;
-    protected String barcode, author, title, type, year, isbn;
+    private String barcode, author, title, type, year, isbn;
     FileIO file = new  FileIO(); //instatiating class
     ArrayList<Items> itemList = file.getItemList(); //instatiating arraylist
    
-    public Items(String barcode, String author, String title, String type, String year, String isbn)
+    public Items2(String barcode, String author, String title, String type, String year, String isbn)
     {
         this.barcode = barcode;
         this.author = author;
@@ -20,8 +19,8 @@ public class Items {
         this.isbn = isbn;
     }
     
-//constructor overloading
-    public Items()
+    //constructor overloading
+    public Items2()
     {     
     }
     

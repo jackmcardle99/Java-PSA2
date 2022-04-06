@@ -7,7 +7,8 @@ public class Users {
     private String userID, forename, surname, email;
     FileIO file = new FileIO(); //instatiating class
     ArrayList<Users> userList = file.getUserList(); //instatiating arraylist
-    //constructor for users
+    
+   //constructor for users for creating objects
     public Users(String userID, String forename, String surname, String email)
     {
         this.userID = userID;

@@ -1,35 +1,29 @@
 package classes;
 
-//this class inherits from the items class
+//this class inherits from the items class, for creating book objects
+
 public class Books extends Items {  
-    private final String itemType = "Book";  
-    
-    public void Book(){}//constructor
-    
-    //getters and setters for book type
-    public void setMaxRenew()
+
+    //constructor, inherited from the superclass, in order to create book obj
+    public Books(String barcode, String author, String title, String type, String year, String isbn)
     {
-        super.maxRenew = 3;
+        super(barcode, author, title, type, year, isbn);    
     }
     
-    public void setLoanLength()
-    {
-       super.loanLength = 28; 
-    }
+    public Books(){} //overloading constructor
     
+    private int maxRenew = 3, loanLength = 28; 
+    
+    @Override //overriding from the superclass methods
     public int getMaxRenew()
     {
         return this.maxRenew;
     }
     
+    @Override
     public int getLoanLength()
     {
         return this.loanLength;
     }
     
-    public String getItemType()
-    {
-        return this.itemType;
-    }
-
 }

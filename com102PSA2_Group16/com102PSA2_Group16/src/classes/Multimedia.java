@@ -3,33 +3,26 @@ package classes;
 //this class inherits from the items class
 public class Multimedia extends Items {
     
-    private final String itemType = "Multimedia";
-   
-    public void Multimedia(){}//constructor 
-    
-   //getters and setters for media type
-   public void setMaxRenew()
+    //constructor, inherited from the superclass, in order to create media obj
+    public Multimedia(String barcode, String author, String title, String type, String year, String isbn)
     {
-        super.maxRenew = 2;
+        super(barcode, author, title, type, year, isbn);
     }
     
-    public void setLoanLength()
-    {
-       super.loanLength = 7; 
-    }
+    private int maxRenew = 2, loanLength = 7;
     
+    public Multimedia(){} //overloading constructor
+    
+   @Override //overriding from the superclass methods
     public int getMaxRenew()
     {
         return this.maxRenew;
     }
     
+   @Override
     public int getLoanLength()
     {
         return this.loanLength;
     }
-    
-    public String getItemType()
-    {
-        return this.itemType;
-    }
+
 }

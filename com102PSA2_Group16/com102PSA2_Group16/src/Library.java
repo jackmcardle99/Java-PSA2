@@ -11,6 +11,8 @@ import java.util.*;
  * Mark Allison - B00847098 - allison-m2@ulster.ac.uk
  */
 
+//Main class of program, repsonsible for program menu, and other vital methods
+
 public class Library {
     
     //declaring class variables and instatiating objects for other classes
@@ -22,13 +24,13 @@ public class Library {
 
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception 
     {
-        Library lib = new Library();
-        lib.start();
+        Library lib = new Library();     
+        lib.start();    
     }
     
     private void start() throws Exception
     {
-        Library lib = new Library();
+        Library lib = new Library();  
         lib.initialRead(); //on start read files into arraylists
         lib.menu(); //calls upon the menu method to allow user to access the program
     }
@@ -69,7 +71,7 @@ public class Library {
                 }
             
             switch (x) {
-                case 1: x = 1;
+                case 1: x = 1;               
                     item.printItemSummary();  
                     break;
                 case 2: x = 2;
@@ -79,10 +81,10 @@ public class Library {
                     loan.printLoanSummary();
                     break;
                 case 4: x = 4;
-                    loan.loanEligibility();                   
+                    loan.createLoan();                   
                     break;
                 case 5: x = 5;
-                    loan.renewLoanEligibility();
+                    loan.renewLoan();
                     break;  
                 case 6: x = 6;
                     loan.returnLoan();
@@ -91,8 +93,7 @@ public class Library {
                 case 7: x = 7;
                     file.writeToFile();
                     System.out.println("\nApplication Terminated");
-                    response = false;
-                //ADD SLEEP TIMER FOR INPUT 2/3 second                              
+                    response = false;                         
             }
         }    
     }

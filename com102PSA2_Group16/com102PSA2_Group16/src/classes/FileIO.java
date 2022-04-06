@@ -12,11 +12,11 @@ public class FileIO
     private static final ArrayList<Loans> loanList = new ArrayList<Loans>();
     
     //declaring class variables   
-    private BufferedReader inputStream;
+    private BufferedReader inputStream; //reads the content of files as text
     private BufferedWriter outputStream;
-    private FileReader fr;
+    private FileReader fr; //for reading and writing files
     private FileWriter fw;
-    private String fileIn, fileOut, line;    
+    private String fileIn, fileOut, line;  //string for file name 
      
     //method for reading ITEMS.csv
     public void readItems() throws IOException 
@@ -29,12 +29,20 @@ public class FileIO
         FileReader fileReader = new FileReader(fileIn);
         inputStream = new BufferedReader(fileReader);
         inputStream.readLine();
-        while ((line = inputStream.readLine()) != null) 
+        while ((line = inputStream.readLine()) != null) //while line is not empty
         {
-            String[] temp = line.split(",");                  
-            itemList.add(new Items(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]));
+            String[] temp = line.split(",");   //temp array to store file contents   
+            if (temp[3].equals("Book")) //if item is of type book then create book item
+            {                           //else create media item, inheritance at work
+                itemList.add(new Books(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]));
+            }
+            else
+            {
+                itemList.add(new Multimedia(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]));
+            }
+            
         }
-            inputStream.close();             
+            inputStream.close();  //close bufferedreader           
     }
     
     //Method for reading USERS.csv
@@ -79,16 +87,14 @@ public class FileIO
     }  
 
     public void writeToFile() throws IOException // WHEN PROGRAM EXITS THIS IS CALLED
-    {   
-        int lenght = loanList.size();
-        Loans loan = new Loans();
+    {        
         fileOut = "LOANS.csv";
         fw = new FileWriter(fileOut, false); //false means overwriting
         outputStream = new BufferedWriter(fw);
         
         outputStream.write("Barcode,User_id,Issue_Date,Due_Date,numRenews"); //making sure the heading is still  present when overwriting
         outputStream.newLine();
-        for (int i = 0; i < lenght; i++)
+        for (int i = 0; i < loanList.size(); i++)
         {         
             outputStream.write(loanList.get(i).toFileString());     //writing line by line with the format of toFileString from Loans file
             outputStream.newLine();

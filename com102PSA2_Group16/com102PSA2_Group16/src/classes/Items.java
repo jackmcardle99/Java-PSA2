@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Items {
     
     //declaring class variables
-    protected int loanLength, maxRenew;
-    protected String barcode, author, title, type, year, isbn;
+    private String barcode, author, title, type, year, isbn;
     FileIO file = new  FileIO(); //instatiating class
     ArrayList<Items> itemList = file.getItemList(); //instatiating arraylist
-   
+
+    //contructor for items obj, never used due to inheritance 
     public Items(String barcode, String author, String title, String type, String year, String isbn)
     {
         this.barcode = barcode;
@@ -21,11 +21,9 @@ public class Items {
     }
     
 //constructor overloading
-    public Items()
-    {     
-    }
+    public Items(){}
     
-    //method for printing ArrayList summary
+//method for printing ArrayList summary
     public void printItemSummary()
     {
         for(Items items: itemList) {  
@@ -36,8 +34,7 @@ public class Items {
     public String toString(){ //method to output content of items file as string
         String itemsOutput =  "Barcode: " + this.barcode + ", " + "author: " 
                 + this.author + ", " + "title: " + this.title + ", "+ "type: " 
-                + this.type + ", "+ "year: " + this.year + ", "+ "isbn: " + this.isbn;
-             
+                + this.type + ", "+ "year: " + this.year + ", "+ "isbn: " + this.isbn;             
         return itemsOutput;  
     }
     
@@ -60,9 +57,21 @@ public class Items {
     {
         return this.barcode;
     }
-
+    
     public String getType() 
     {
         return this.type;
-    }   
+    }
+    
+    public int getMaxRenew()
+    {
+        return 0;
+    }
+    
+    public int getLoanLength()
+    {
+        return 0;
+    }
+    
+
 }

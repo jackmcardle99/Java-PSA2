@@ -50,15 +50,9 @@ public class Library {
         //basic structure for user input for user to use within the terminal
         while (response) {
             System.out.println("\nWhat would you like to do?\n");
-            System.out.println(""" 
-                               (1) View all items 
-                               (2) View all users 
-                               (3) View items on loan 
-                               (4) Issue new loan 
-                               (5) Renew Loan
-                               (6) Return Loan
-                               (7) Stop program
-                               """);   
+            System.out.println("(1) View all items \n(2) View all users \n(3) "
+                    + "View items on loan \n(4) Issue new loan \n(5) Renew Loan "
+                    + "\n(6) Return Loan \n(7) Stop program");   
             userInput = scan.nextLine();          
 
             try {

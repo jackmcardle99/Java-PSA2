@@ -125,7 +125,6 @@ public class Loans {
                 System.out.println(" - The item is already on loan. ");
             if (userFound == false)
                 System.out.println(" - The user ID doesnt exist. ");     
-            this.createLoan();
         }       
         /*if the loan is determined available above, createloan method called and
                 passed loantype */       
@@ -204,44 +203,34 @@ public class Loans {
         {      
            boolean responseLoop = true;//boolean to control loop
            while (responseLoop)
-           {
-               System.out.println("\nAre you sure you want to remove this loan"+ " (y/n)\n"); 
-                 confirm = scan.nextLine();
-                 if (confirm.equals("Y") || confirm.equals("y"))
-                 {
-                     for (int i = 0; i < loanList.size(); i++)
-                     {
-                         if(loanList.get(i).getBarcode().equals(inputBarcode))
-                         {   //converting format of date from / to - in csv                     
-                            String dueDateLoan = loanList.get(i).getDueDate();                         
-                            String formattedDueDate = dueDateLoan.replace("/", "-");                      
-                            String[] divide = formattedDueDate.split("-");
-                            String day = divide[0];  //changing D/M/Y to Y/M/D
-                            String month = divide[1]; 
-                            String year = divide[2];
-                            String result = year + "-" + month + "-" + day;                       
-                            LocalDate dueDate = LocalDate.parse(result);
-                            boolean dateBefore = date.isAfter(dueDate);
-                            
-                            //if current day is after return date display this
-                            if(dateBefore) 
-                            {
-                               System.out.println("This items was returned after due date");
-                            }
-                         } //finding loan which = inputBarcode
-                         if(loanList.get(i).getBarcode().equals(inputBarcode))
-                         {
-                             loanList.remove(loanList.get(i)); //remove from arraylist
-                             System.out.println("\nLoan has been removed removed.");
-                             responseLoop = false;
-                         }
-                     }  
-                 }  //validation for returning loan
-                 else if (confirm.equals("N") || confirm.equals("n"))
-                 {
-                     System.out.println("\nCancelled action. ");
-                     responseLoop = false;
-                 }
+           {          
+                for (int i = 0; i < loanList.size(); i++)
+                   {
+                       if(loanList.get(i).getBarcode().equals(inputBarcode))
+                       {   //converting format of date from / to - in csv                     
+                          String dueDateLoan = loanList.get(i).getDueDate();                         
+                          String formattedDueDate = dueDateLoan.replace("/", "-");                      
+                          String[] divide = formattedDueDate.split("-");
+                          String day = divide[0];  //changing D/M/Y to Y/M/D
+                          String month = divide[1]; 
+                          String year = divide[2];
+                          String result = year + "-" + month + "-" + day;                       
+                          LocalDate dueDate = LocalDate.parse(result);
+                          boolean dateBefore = date.isAfter(dueDate);
+
+                          //if current day is after return date display this
+                          if(dateBefore) 
+                          {
+                             System.out.println("This items was returned after due date");
+                          }
+                       } //finding loan which = inputBarcode
+                       if(loanList.get(i).getBarcode().equals(inputBarcode))
+                       {
+                           loanList.remove(loanList.get(i)); //remove from arraylist
+                           System.out.println("\nLoan has been removed removed.");
+                           responseLoop = false;
+                       }                   
+                 }  
            }
         } else {
             System.out.println("\nPlease enter valid barcode."); 
